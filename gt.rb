@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
-# start with capybara for testing, then switch to mechanize?
+=begin
+start with capybara for testing, then switch to mechanize?
+adv search criteria: we want...
+- keyword
+- only SOLD items
+- ?
 
+=end
 require 'rinruby'
 require 'capybara'
 require 'mechanize'
