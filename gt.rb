@@ -1,44 +1,35 @@
 #!/usr/bin/env ruby
+# start with capybara for testing, then switch to mechanize?
 
-tally = Hash.new(0)
-   File.open('gettysburg.txt').each_line do |line|
-      line.downcase.split(/\W+/).each { |w| tally[w] += 1 }
-   end
-total = tally.values.inject { |sum,count| sum + count }
-tally.delete_if { |key,count| count < 3 || key.length < 4 }
+require 'rinruby'
+require 'capybara'
+require 'mechanize'
 
-require "rinruby"
-         
-x_coords = [2,4,1,2,3,9,6,5,7,6]
-y_coords = [0,3,8,2,6,5,6,3,1,5]
-R.keys, R.counts = tally.keys, tally.values
-         
-R.xc, R.yc = x_coords, y_coords
-=begin
-Plots a bar graph
+Capybara.current_driver = :selenium
+include Capybara::DSL
 
-R.eval <<EOF
-   names(counts) <- keys
-   barplot(rev(sort(counts)),main="Frequency of Non-Trivial Words",las=2)
-   mtext("Among the #{total} words in the Gettysburg Address",3,0.45)
-   rho <- round(cor(nchar(keys),counts),4)
-EOF
-puts "The correlation between word length and frequency is #{R.rho}."
+#$agent = Mechanize.new
+$target_site = 'http://www.ebay.com/sch/ebayadvsearch'
+#abort "Enter a keyword" unless ARGV[0]
+#search_item = ARGV[0]
 
-This plots a set of points to an image file
+def graph_results
+  x_coords = [2,4,1,2,3,9,6,5,7,6]
+  y_coords = [0,3,8,2,6,5,6,3,1,5]        
+  R.xc, R.yc = x_coords, y_coords
 
-R.image_path = ("sample.png").to_s
-R.eval("numbers <- c(12,34,56,20,44,65)")
-R.eval("png(filename=image_path)")
-R.eval("plot(numbers)")
-R.eval("dev.off()")
+  # this saves graph to a png file
+  #R.image_path = "sample2.png"
+  #R.eval("png(filename=image_path)")
+  R.eval "plot(xc,yc)"
+  sleep 3
+  #R.eval("dev.off()")
+end
 
-eBay dev site
-https://go.developer.ebay.com/
+def collect_results(search_item)
+  visit $target_site
+  page.fill_in("_nkw", :with => search_item)
+  sleep 2
+end
 
-=end
-
-R.image_path = "sample2.png"
-R.eval("png(filename=image_path)")
-R.eval "plot(xc,yc)"
-R.eval("dev.off()")
+collect_results('zugs')
