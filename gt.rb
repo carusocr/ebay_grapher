@@ -40,9 +40,14 @@ def graph_results
 end
 
 def collect_results(search_item)
+  checkboxes = ['Used','Sold listings','Auction','Buy It Now']
   visit $target_site
   page.fill_in("_nkw", :with => search_item)
-  sleep 2
+  checkboxes.each do |c|
+    page.check(c)
+  end
+  page.first(:button,"Search").click
+  sleep 4
 end
 
-collect_results('zugs')
+collect_results('kettlebell')
