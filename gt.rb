@@ -5,6 +5,13 @@ adv search criteria: we want...
 - keyword
 - only SOLD items
 - ?
+- choose max results (200)
+
+Once we get results, parse through and get:
+
+- duration of auction
+- price sold for
+- number of bids
 
 =end
 require 'rinruby'
