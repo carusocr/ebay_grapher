@@ -48,6 +48,7 @@ def collect_results(search_item)
   end
   page.first(:button,"Search").click
   page.all(:xpath,"//li[@class='sresult lvresult clearfix li']").each do |n|
+    puts n.first('a')['href']
     puts n.first(:xpath,"//li[@class='lvprice prc']").text
   end
   
