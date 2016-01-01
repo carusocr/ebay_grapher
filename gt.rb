@@ -47,7 +47,11 @@ def collect_results(search_item)
     page.check(c)
   end
   page.first(:button,"Search").click
-  sleep 4
+  page.all(:xpath,"//li[@class='sresult lvresult clearfix li']").each do |n|
+    puts n.first(:xpath,"//li[@class='lvprice prc']").text
+  end
+  
+#  puts page.first(:xpath,"//ul[@id='ListViewInner']").text
 end
 
 collect_results('kettlebell')
