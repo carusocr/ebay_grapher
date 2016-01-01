@@ -49,7 +49,8 @@ def collect_results(search_item)
   page.first(:button,"Search").click
   page.all(:xpath,"//li[@class='sresult lvresult clearfix li']").each do |n|
     puts n.first('a')['href']
-    puts n.first(:xpath,"//li[@class='lvprice prc']").text
+    puts n.first(:xpath,".//li[@class='lvprice prc']").text
+    # NEED THAT DOT BEFORE THE DOUBLE SLASH! Otherwise it searches entire document
   end
   
 #  puts page.first(:xpath,"//ul[@id='ListViewInner']").text
