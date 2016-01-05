@@ -49,8 +49,10 @@ def collect_results(search_item)
   page.first(:button,"Search").click
   page.all(:xpath,"//li[@class='sresult lvresult clearfix li']").each do |n|
     puts n.first(:xpath,".//li[@class='lvprice prc']").text
-    timesold = Time.parse(n.first(:xpath,".//li[@class='timeleft']").text)
     # NEED THAT DOT BEFORE THE DOUBLE SLASH! Otherwise it searches entire document
+    timesold = Time.parse(n.first(:xpath,".//li[@class='timeleft']").text)
+    # Time.parse is switching ebays provided dates to 2016. Fix by checking c
+    # current date, if timesold mm/dd > curdate, year -= 1
   end
   
 #  puts page.first(:xpath,"//ul[@id='ListViewInner']").text
